@@ -1,0 +1,49 @@
+version: 2
+
+jobs:
+    build:
+        docker:
+            - image: nicolov/occupancy_mapping_benchmarks:0.0.1
+        working_directory: /catkin_ws
+        steps:
+            - checkout:
+            - restore_cache:
+                keys:
+                    - build-{{ .Branch }}-
+                    - build-
+                paths:
+                    - ~/.ccache
+
+            - run:
+                name: ccache setup
+                command: |
+                    ccache --show-stats
+                    ccache --zero-stats
+                    ccache --max-size=2G
+
+            - run: CC=/usr/lib/ccache/gcc CXX=/usr/lib/ccache/g++ catkin build -j3
+            - run: ccache --show-stats
+
+            - save_cache:
+                key: build-{{ .Branch }}-{{ epoch }}
+                paths:
+                    - ~/.ccache
+                when: always
+
+            # Download dataset
+            - run:
+                name: download dataset
+                command: |
+                    cd /tmp && wget https://vision.in.tum.de/rgbd/dataset/freiburg3/rgbd_dataset_freiburg3_long_office_household-2hz-with-pointclouds.bag
+
+            - run:
+                name: run benchmark
+                command: |
+                    source devel/setup.bash &&
+                    mkdir /tmp/results &&
+                    cd /tmp/results &&
+                    rosrun occupancy_mapping_benchmarks benchmark /tmp/*.bag > bench_output.txt &&
+                    rosrun occupancy_mapping_benchmarks make_plots.py
+
+            - store_artifacts:
+                path: /tmp/results

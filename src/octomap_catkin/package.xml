@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>octomap_catkin</name>
+  <version>0.0.1</version>
+  <description>catkin wrapper for octomap</description>
+  <maintainer email="nicolov@users.noreply.github.com">nicolov</maintainer>
+  <license>BSD</license>
+  <buildtool_depend>catkin</buildtool_depend>
+  <export/>
+</package>

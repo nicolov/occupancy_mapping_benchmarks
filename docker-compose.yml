@@ -1,0 +1,7 @@
+version: '3'
+services:
+  dev:
+    build: .
+    volumes:
+      - .:/catkin_ws
+    working_dir: /catkin_ws

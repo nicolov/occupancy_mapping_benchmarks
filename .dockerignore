@@ -1,0 +1,5 @@
+# All files not needed for the setup are ignored as we volume-mount the source code.
+
+*
+*.*
+!/ros_entrypoint.sh

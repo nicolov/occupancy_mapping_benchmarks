@@ -1,0 +1,4 @@
+/cmake-build-debug/
+*.bag
+/.idea
+/build

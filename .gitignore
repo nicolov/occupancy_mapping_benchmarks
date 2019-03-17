@@ -1,0 +1,11 @@
+/.catkin_tools
+/logs
+/devel
+/build
+
+/src/cmake-build-debug
+/src/.idea
+
+*.bt
+*.vdb
+
